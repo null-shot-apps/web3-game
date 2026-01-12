@@ -82,8 +82,15 @@ export default function Home() {
             <li>• Last one standing wins! 🏆</li>
           </ul>
         </div>
+
+        <div className="mt-6 text-center">
+          <p className="text-white/60 text-sm">
+            Made with ❤️ Jennycruzy
+          </p>
+        </div>
       </div>
     </div>
   );
 }
+
 

@@ -42,9 +42,16 @@ export default function GameOver({ winner, onPlayAgain, onLeaveGame }: GameOverP
             Leave Game 🚪
           </button>
         </div>
+
+        <div className="mt-6">
+          <p className="text-white/60 text-sm">
+            Made with ❤️ Jennycruzy
+          </p>
+        </div>
       </div>
     </div>
   );
 }
+
 
 
