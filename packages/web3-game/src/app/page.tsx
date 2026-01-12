@@ -1,84 +1,89 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-const slogans = [
-  "Turn chats into apps",
-  "Prompt. Ship. Repeat.",
-  "Build anything from a chat",
-  "Ideas → Apps, instantly",
-  "From zero to MVP in minutes",
-  "Your cofounder in the command line",
-  "Draft, iterate, deploy",
-  "Ship faster than you can type",
-  "Design in text, deliver in code",
-  "Dream it. Prompt it. Run it.",
-  "Chat-native app building",
-  "From prompt to product",
-  "One prompt, infinite apps",
-  "Stop scaffolding. Start shipping.",
-  "Prototype at the speed of thought",
-  "Make conversations executable"
-];
+export default function Home() {
+  const router = useRouter();
+  const [roomCode, setRoomCode] = useState('');
 
-export default function Landing() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
+  const generateRoomCode = () => {
+    return Math.random().toString(36).substring(2, 8).toUpperCase();
+  };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsVisible(false);
-      setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % slogans.length);
-        setIsVisible(true);
-      }, 400);
-    }, 2800);
+  const handleCreateRoom = () => {
+    const newRoomCode = generateRoomCode();
+    router.push(`/game?room=${newRoomCode}`);
+  };
 
-    return () => clearInterval(interval);
-  }, []);
+  const handleJoinRoom = () => {
+    if (roomCode.trim()) {
+      router.push(`/game?room=${roomCode.toUpperCase()}`);
+    }
+  };
 
   return (
-    <div className="relative h-[100dvh] w-full overflow-hidden bg-black text-white">
-      {/* Enhanced animated aurora background layers */}
-      <div className="absolute inset-0 bg-aurora-layer-1" />
-      <div className="absolute inset-0 bg-aurora-layer-2" />
-      <div className="absolute inset-0 bg-aurora-layer-3" />
-      
-      {/* Floating particles overlay */}
-      <div className="absolute inset-0 bg-particles" />
-      
-      {/* Main content - centered */}
-      <main className="relative z-10 h-full flex flex-col items-center justify-center px-6">
-        <h1 className="text-center text-[clamp(28px,6vw,64px)] font-medium tracking-tight mb-4">
-          Turn Chats into Apps
-        </h1>
-        
-        {/* Rotating slogans */}
-        <div className="mt-4 h-8 md:h-10 overflow-hidden flex items-center justify-center">
-          <span
-            className={`inline-block text-center text-[clamp(18px,3vw,32px)] font-light transition-all duration-[400ms] ease-in-out ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
-            }`}
-          >
-            {slogans[currentIndex]}
-          </span>
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-6">
+      <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 max-w-md w-full shadow-2xl border border-white/20">
+        <div className="text-center mb-8">
+          <div className="text-6xl mb-4">💣</div>
+          <h1 className="text-4xl font-bold text-white mb-2">
+            Crypto Token Bomb Party
+          </h1>
+          <p className="text-white/80">
+            Fast-paced crypto token typing game!
+          </p>
         </div>
-      </main>
-      
-      {/* Start Prompting arrow pointing left - bottom left */}
-      <div className="absolute left-6 md:left-8 bottom-[5%] z-20 flex items-center gap-3 arrow-point-left">
-        <div className="flex items-center gap-2 text-white/80 font-medium text-sm md:text-base">
-          <svg 
-            className="w-5 h-5 md:w-6 md:h-6 animate-bounce-horizontal" 
-            fill="none" 
-            viewBox="0 0 24 24" 
-            stroke="currentColor"
+
+        <div className="space-y-4">
+          <button
+            onClick={handleCreateRoom}
+            className="w-full px-6 py-4 bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-lg transition-colors text-lg"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          <span>Start prompting</span>
+            Create New Game 🎮
+          </button>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-white/20"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-transparent text-white/60">or</span>
+            </div>
+          </div>
+
+          <div>
+            <input
+              type="text"
+              placeholder="Enter room code"
+              value={roomCode}
+              onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
+              onKeyDown={(e) => e.key === 'Enter' && handleJoinRoom()}
+              className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-yellow-400 mb-3 text-center font-mono text-lg"
+              maxLength={6}
+            />
+            <button
+              onClick={handleJoinRoom}
+              disabled={!roomCode.trim()}
+              className="w-full px-6 py-4 bg-green-500 hover:bg-green-600 disabled:bg-gray-500 disabled:cursor-not-allowed text-white font-bold rounded-lg transition-colors text-lg"
+            >
+              Join Game 🚀
+            </button>
+          </div>
+        </div>
+
+        <div className="mt-8 p-4 bg-white/5 rounded-lg border border-white/10">
+          <h3 className="text-white font-semibold mb-2 text-center">How to Play:</h3>
+          <ul className="text-white/80 text-sm space-y-1">
+            <li>• 2-15 players compete</li>
+            <li>• 10 seconds per turn to type a crypto token name</li>
+            <li>• Each token can only be used once</li>
+            <li>• 3 lives per player</li>
+            <li>• Last one standing wins! 🏆</li>
+          </ul>
         </div>
       </div>
     </div>
   );
 }
+
