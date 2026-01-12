@@ -1,66 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app) and configured for Cloudflare Pages deployment.
+# 💣 Crypto Token Bomb Party - Frontend
 
-## Getting Started
+A fast-paced multiplayer game where players race to type crypto token names before time runs out!
 
-First, run the development server:
+## 🎮 Game Rules
 
+- Up to **15 players** can join a game
+- Each player gets **10 seconds** to type a valid crypto token name
+- Each player has **3 lives**
+- Token names **cannot be repeated** in the same game
+- Last player standing wins! 🏆
+
+## 🚀 Quick Start (Local Development)
+
+1. **Install dependencies**:
+```bash
+npm install
+```
+
+2. **Set up environment**:
+```bash
+cp .env.example .env.local
+```
+
+3. **Make sure backend is running** (see `packages/web3-game-backend/`)
+
+4. **Start the dev server**:
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📦 Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for complete deployment instructions.
 
-## Webview & CORS Configuration
+**Quick summary**:
+1. Deploy backend to Railway/Render
+2. Deploy frontend to Vercel with backend URL as environment variable
 
-This template is configured with **universal CORS and iframe embedding** for maximum compatibility:
+## 🔧 Environment Variables
 
-### 🌐 Simple Universal Access
-- **All Routes & Assets**: Wildcard CORS allowing any origin, method, and headers
-- **No File Type Restrictions**: Works with any file format your project uses
-- **Iframe Ready**: `Content-Security-Policy: frame-ancestors *` allows embedding in any iframe
-- **Webview Ready**: Configured for embedding in any container or webview
-- **Development Friendly**: Works across any port, domain, or subdomain
+Create a `.env.local` file:
 
-### 🚀 Works Everywhere
-- Any localhost port (`localhost:3000`, `localhost:8080`, etc.)
-- Any subdomain pattern (`*.localhost`, `*.nullshot.dev`, etc.)
-- Webview containers (Electron, VSCode, browser iframes)
-- Cross-origin development scenarios
-- CDN and edge deployments
-
-### Environment Variables
-
-Create a `.env.local` file for local development:
-
-```bash
-# Next.js Environment (for Cloudflare deployment)
-NEXTJS_ENV=development
-
-# Optional: Override CORS settings if needed
-# CORS_ALLOWED_ORIGINS=http://localhost:3000,https://yourdomain.com
+```env
+NEXT_PUBLIC_BACKEND_URL=http://localhost:3001
 ```
 
-## Learn More
+For production, set this to your deployed backend URL (e.g., `https://your-app.railway.app`)
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Next.js 15** (App Router)
+- **React 19**
+- **TypeScript**
+- **Tailwind CSS**
+- **Socket.IO Client** (for real-time multiplayer)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📁 Project Structure
 
-## Deploy on Vercel
+```
+packages/web3-game/
+├── src/
+│   ├── app/
+│   │   ├── page.tsx          # Home page (create/join room)
+│   │   ├── game/
+│   │   │   └── page.tsx      # Game page
+│   │   └── layout.tsx
+│   └── components/
+│       ├── GameLobby.tsx     # Waiting room
+│       ├── GamePlay.tsx      # Main gameplay
+│       └── GameOver.tsx      # Winner screen
+├── public/
+├── .env.example
+└── package.json
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎯 Features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- ✅ Real-time multiplayer (Socket.IO)
+- ✅ Token validation via CoinGecko API
+- ✅ Turn-based gameplay with 10-second timer
+- ✅ Lives system (3 lives per player)
+- ✅ No repeated tokens
+- ✅ Responsive design
+- ✅ Beautiful gradient UI
+
+## 🐛 Troubleshooting
+
+### "Cannot connect to server"
+Make sure the backend server is running and `NEXT_PUBLIC_BACKEND_URL` is set correctly.
+
+### "Invalid token" for valid tokens
+The game fetches tokens from CoinGecko API. If the API is down, it falls back to a basic list. Wait a moment and try again.
+
+## 📄 License
+
+MIT
+
